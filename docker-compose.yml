@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: course-master-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/course_master
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      SPRING_SECURITY_JWT_SECRET_KEY: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      SPRING_SECURITY_JWT_ACCESS_TOKEN_EXPIRATION: 86400000
+      SPRING_SECURITY_JWT_REFRESH_TOKEN_EXPIRATION: 604800000
+      SPRING_TIME_ZONE: Z
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - rabbitmq
+
+  db:
+    image: postgres:15-alpine
+    container_name: course-master-db
+    environment:
+      POSTGRES_DB: course_master
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: course-master-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+volumes:
+  postgres_data:
