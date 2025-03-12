@@ -21,14 +21,14 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<StudentResponseDto> getAllStudents(Pageable pageable) {
         return studentService.getAll(pageable);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StudentResponseDto getStudentById(
@@ -37,7 +37,7 @@ public class StudentController {
         return studentService.getById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StudentResponseDto createStudent(
@@ -46,7 +46,7 @@ public class StudentController {
         return studentService.create(studentRequestDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StudentResponseDto updateStudent(
@@ -56,7 +56,7 @@ public class StudentController {
         return studentService.update(id, studentRequestDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(

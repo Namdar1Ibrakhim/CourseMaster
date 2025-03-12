@@ -4,9 +4,7 @@ CREATE TABLE user_ (
                        password VARCHAR(255) NOT NULL,
                        role VARCHAR(255) NOT NULL,
                        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                       updated_date TIMESTAMP,
-                       deleted_date TIMESTAMP,
-                       is_active BOOLEAN
+                       updated_date TIMESTAMP
 );
 
 CREATE TABLE student (
@@ -17,8 +15,6 @@ CREATE TABLE student (
                          user_id BIGINT,
                          created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          updated_date TIMESTAMP,
-                         deleted_date TIMESTAMP,
-                         is_active BOOLEAN,
                          CONSTRAINT fk_student_user FOREIGN KEY (user_id) REFERENCES user_(id)
 );
 
@@ -29,9 +25,7 @@ CREATE TABLE course (
                         start_date TIMESTAMP,
                         end_date TIMESTAMP,
                         created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        updated_date TIMESTAMP,
-                        deleted_date TIMESTAMP,
-                        is_active BOOLEAN
+                        updated_date TIMESTAMP
 );
 
 CREATE TABLE course_student (

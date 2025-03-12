@@ -10,7 +10,6 @@ import org.mapstruct.Mapping;
 public interface StudentMapper extends Mappable<Student, StudentRequestDto, StudentResponseDto> {
 
     @Override
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "registrationDate", expression = "java(entity.getCreatedDate())")
+    @Mapping(target = "registrationDate", source = "createdDate")
     StudentResponseDto toDto(Student entity);
 }

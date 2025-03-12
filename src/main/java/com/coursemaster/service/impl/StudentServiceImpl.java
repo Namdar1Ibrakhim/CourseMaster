@@ -115,7 +115,7 @@ public class StudentServiceImpl implements StudentService {
         log.info("Deleted Student with ID: {}", student.getId());
     }
 
-    private Student getEntityById(long id) {
+    public Student getEntityById(long id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " does not exist"));
     }

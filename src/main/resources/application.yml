@@ -1,5 +1,4 @@
 spring:
-
   application:
     name: CourseMaster
   main:
@@ -26,7 +25,25 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create-drop}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: namdaribrahim04@gmail.com
+    password: llfqejwhjyakcjmi
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 springdoc:
   swagger-ui:

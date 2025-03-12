@@ -1,8 +1,6 @@
 package com.coursemaster.dto.course;
 
 import com.coursemaster.dto.student.StudentResponseDto;
-import com.coursemaster.entity.Student;
-import com.coursemaster.enums.Role;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

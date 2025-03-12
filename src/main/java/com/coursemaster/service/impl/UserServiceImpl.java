@@ -118,6 +118,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " does not exist"));
     }
 
+    @Override
     public void throwExceptionIfUserExists(String username) {
         userRepository.findByUsername(username)
                 .ifPresent(foundUser -> {
