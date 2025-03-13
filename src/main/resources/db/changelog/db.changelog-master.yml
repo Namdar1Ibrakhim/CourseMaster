@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/create-tables.yaml
+  - changeSet:
+      id: create-admin-user
+      author: Ibrakhim
+      changes:
+        - sqlFile:
+            splitStatement: true
+            path: db/changelog/20250313/script_create_admin.sql
+            stripComments: true

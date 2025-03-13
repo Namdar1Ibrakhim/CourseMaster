@@ -9,17 +9,17 @@ import com.coursemaster.entity.Student;
 import com.coursemaster.exceptions.entity.EntityAlreadyExistsException;
 import com.coursemaster.exceptions.entity.EntityNotFoundException;
 import com.coursemaster.mapper.CourseMapper;
-import com.coursemaster.mapper.StudentMapper;
 import com.coursemaster.rabbit.RabbitMailProducer;
 import com.coursemaster.repository.CourseRepository;
 import com.coursemaster.service.CourseService;
-import com.coursemaster.service.MailService;
 import com.coursemaster.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.text.MessageFormat;
 
 @Slf4j
 @Service
@@ -115,12 +115,12 @@ public class CourseServiceImpl implements CourseService {
         course.getStudents().add(student);
         course = courseRepository.save(course);
 
-        String formattedMessage = String.format(MAIL_TEMPLATE,
+        String formattedMessage = MessageFormat.format(MAIL_TEMPLATE,
                 course.getName(),
                 course.getDescription(),
-                course.getStartDate());
+                course.getStartDate().toString());
 
-        rabbitMailProducer.sendMailMessage(new MailStructureDto(MAIL_SUBJECT, formattedMessage, student.getEmail()));
+        rabbitMailProducer.sendMailMessage(new MailStructureDto(student.getEmail(), MAIL_SUBJECT, formattedMessage));
 
         log.info("Registered student with email {} to course with ID: {}", student.getEmail(), course.getId());
         return courseMapper.toDto(course);

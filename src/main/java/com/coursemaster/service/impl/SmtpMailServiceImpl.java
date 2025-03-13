@@ -23,19 +23,19 @@ public class SmtpMailServiceImpl implements MailService {
     @Override
     @Async
     public void sendMail(MailStructureDto mailStructure) {
-        log.info("Preparing to send email to {}", mailStructure.getMail());
+        log.info("Preparing to send email to {}", mailStructure.getEmail());
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromMail);
-        message.setTo(mailStructure.getMail());
+        message.setTo(mailStructure.getEmail());
         message.setSubject(mailStructure.getSubject());
         message.setText(mailStructure.getMessage());
 
         try {
             mailSender.send(message);
-            log.info("Email sent successfully to {}", mailStructure.getMail());
+            log.info("Email sent successfully to {}", mailStructure.getEmail());
         } catch (Exception e) {
-            log.error("Error sending email to {}: {}", mailStructure.getMail(), e.getMessage(), e);
+            log.error("Error sending email to {}: {}", mailStructure.getEmail(), e.getMessage(), e);
             throw e;
         }
     }

@@ -27,14 +27,14 @@ public class CourseController {
 
     private final CourseService courseService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<CourseResponseDto> getAllCourses(Pageable pageable) {
         return courseService.getAll(pageable);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CourseResponseDto getCourseById(
@@ -79,7 +79,7 @@ public class CourseController {
             @PathVariable @Positive(message = "Student ID must be positive") long studentId,
             @AuthenticationPrincipal User user
     ) {
-        if (user.getRole()== Role.USER && user.getId() != studentId) {
+        if (user.getRole() == Role.USER && user.getId() != studentId) {
             throw new AccessDeniedException("Students can only register themselves.");
         }
         return courseService.registerStudent(courseId, studentId);

@@ -10,14 +10,14 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
 
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 15MB
-
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
 
   jpa:
     show-sql: true
@@ -25,13 +25,13 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create-drop}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: namdaribrahim04@gmail.com
-    password: llfqejwhjyakcjmi
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:namdaribrahim04@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:llfqejwhjyakcjmi}
     properties:
       mail:
         smtp:

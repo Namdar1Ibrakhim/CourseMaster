@@ -15,7 +15,7 @@ public class RabbitMailProducer {
     private final RabbitTemplate rabbitTemplate;
 
     public void sendMailMessage(MailStructureDto mailStructure) {
-        log.info("Publishing email message to RabbitMQ for {}", mailStructure.getMail());
+        log.info("Publishing email message to RabbitMQ for {}", mailStructure.getEmail());
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailStructure);
     }
 }

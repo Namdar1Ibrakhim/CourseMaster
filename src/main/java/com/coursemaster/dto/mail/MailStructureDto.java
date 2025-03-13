@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MailStructureDto {
 
-    private String mail;
+    private String email;
     private String subject;
     private String message;
 

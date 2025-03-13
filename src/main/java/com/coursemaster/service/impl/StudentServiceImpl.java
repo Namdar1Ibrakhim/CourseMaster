@@ -120,6 +120,13 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " does not exist"));
     }
 
+    @Override
+    public Page<StudentResponseDto> searchStudents(String searchTerm, Pageable pageable) {
+        Page<Student> studentPage = studentRepository.findByCourseNameOrNameOrEmail(searchTerm, pageable);
+        return studentPage.map(studentMapper::toDto);
+
+    }
+
     private void throwExceptionIfUserAlreadyLinkedToStudent(User user) {
         Student student = user.getStudent();
 

@@ -17,19 +17,19 @@ public class RabbitMailConsumer {
 
     @RabbitListener(queues = "#{@mailQueue.name}")
     public void handleMailMessage(MailStructureDto mailStructure) {
-        log.info("Received email message for {}", mailStructure.getMail());
+        log.info("Received email message for {}", mailStructure.getEmail());
         try {
             mailService.sendMail(mailStructure);
-            log.info("Email sent successfully to {}", mailStructure.getMail());
+            log.info("Email sent successfully to {}", mailStructure.getEmail());
         } catch (Exception e) {
-            log.error("Error sending email to {}: {}", mailStructure.getMail(), e.getMessage(), e);
+            log.error("Error sending email to {}: {}", mailStructure.getEmail(), e.getMessage(), e);
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
             rabbitMailProducer.sendMailMessage(mailStructure);
-            log.info("Requeued email message for {}", mailStructure.getMail());
+            log.info("Requeued email message for {}", mailStructure.getEmail());
         }
     }
 }

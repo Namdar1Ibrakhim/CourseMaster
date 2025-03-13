@@ -64,4 +64,14 @@ public class StudentController {
     ) {
         studentService.delete(id);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/search")
+    public Page<StudentResponseDto> searchStudents(
+            @RequestParam("searchName") String searchName,
+            Pageable pageable
+    ) {
+        return studentService.searchStudents(searchName, pageable);
+    }
+
 }
