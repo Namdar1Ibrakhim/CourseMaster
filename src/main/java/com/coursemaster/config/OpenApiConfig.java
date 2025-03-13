@@ -45,7 +45,7 @@ public class OpenApiConfig {
                 .info(
                         new Info()
                                 .title("Course Master")
-                                .description("TZ")
+                                .description("Course Master API")
                                 .version("1.0.0")
                 );
     }

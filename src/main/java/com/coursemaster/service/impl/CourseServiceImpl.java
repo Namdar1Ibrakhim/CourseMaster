@@ -13,13 +13,16 @@ import com.coursemaster.rabbit.RabbitMailProducer;
 import com.coursemaster.repository.CourseRepository;
 import com.coursemaster.service.CourseService;
 import com.coursemaster.service.StudentService;
+import com.coursemaster.specification.CourseSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -38,11 +41,15 @@ public class CourseServiceImpl implements CourseService {
             "Вы успешно зарегистрировались на курс {0}. Описание курса: {1}. Дата начала: {2}.";
 
     @Override
-    public Page<CourseResponseDto> getAll(Pageable pageable) {
+    public Page<CourseResponseDto> getAll(String name, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         log.info("Retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
 
-        Page<Course> coursePage = courseRepository.findAll(pageable);
+        Specification<Course> specification = Specification
+                .where(CourseSpecification.hasName(name))
+                .and(CourseSpecification.hasStartDate(startDate))
+                .and(CourseSpecification.hasEndDate(endDate));
 
+        Page<Course> coursePage = courseRepository.findAll(specification, pageable);
         log.info("Finished retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
 
         return coursePage.map(courseMapper::toDto);

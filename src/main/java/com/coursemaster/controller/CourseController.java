@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +19,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Validated
 @RestController
@@ -30,8 +33,15 @@ public class CourseController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<CourseResponseDto> getAllCourses(Pageable pageable) {
-        return courseService.getAll(pageable);
+    public Page<CourseResponseDto> getAllCourses(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return courseService.getAll(name, startDate, endDate, pageable);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
@@ -79,7 +89,7 @@ public class CourseController {
             @PathVariable @Positive(message = "Student ID must be positive") long studentId,
             @AuthenticationPrincipal User user
     ) {
-        if (user.getRole() == Role.USER && user.getId() != studentId) {
+        if (user.getRole() == Role.USER && user.getStudent().getId() != studentId) {
             throw new AccessDeniedException("Students can only register themselves.");
         }
         return courseService.registerStudent(courseId, studentId);
