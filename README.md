@@ -1,62 +1,60 @@
-CourseMaster
+# CourseMaster
 
-CourseMaster — это сервис на базе Spring Boot для управления курсами с использованием PostgreSQL, RabbitMQ и Docker.
+CourseMaster — это учебное приложение на основе Spring Boot с использованием PostgreSQL и RabbitMQ.
 
-Стек технологий
+## Требования
+- Docker
+- Docker Compose
+- JDK 17+
 
-Java 17
+## Сборка и запуск приложения
 
-Spring Boot
+1. Склонируйте репозиторий:
+   ```bash
+   git clone <URL-репозитория>
+   cd CourseMaster
+   ```
 
-PostgreSQL
+2. Соберите приложение с помощью Maven:
+   ```bash
+   ./mvnw clean package
+   ```
 
-RabbitMQ
+3. Запустите контейнеры Docker:
+   ```bash
+   docker-compose up --build
+   ```
 
-Docker
+4. Приложение будет доступно по адресу:
+   ```
+   http://localhost:8080
+   ```
 
-Liquibase
+## Стек технологий
+- Spring Boot
+- PostgreSQL
+- RabbitMQ
+- Docker
+- Docker Compose
+- Liquibase
+- Swagger
 
-Swagger
+## Управление базой данных
 
-Локальный запуск
-
-Клонирование репозитория
-
-git clone <URL вашего репозитория>
-cd course-master
-
-Сборка и запуск приложения
-
-Сборка Docker-образа
-
-docker build -t course-master-app .
-
-Запуск через Docker Compose
-
-docker-compose up -d
-
-Доступ к сервису
-
-После запуска приложение будет доступно по адресу:
-
-http://localhost:8080
-
-Swagger UI
-
-Для просмотра и тестирования API используйте Swagger UI:
-
-http://localhost:8080/swagger-ui/index.html
-
-Подключение к базе данных
-
-После запуска контейнеров можно подключиться к базе данных PostgreSQL:
-
+Для подключения к базе данных используйте команду:
+```bash
 docker exec -it course-master-db psql -U postgres -d course_master
+```
 
-Управление очередями RabbitMQ
+## Swagger UI
+Документация API доступна по адресу:
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
-Панель управления доступна по адресу:
+## Логи
+Чтобы посмотреть логи контейнера приложения:
+```bash
+docker logs -f course-master-app
+```
 
-http://localhost:15672
-
-Логин и пароль по умолчанию: guest / guest
