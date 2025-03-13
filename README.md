@@ -1,5 +1,7 @@
 # CourseMaster
 
+CourseMaster - API для управления учебными курсами с уведомлениями и авторизацией
+
 ## Требования
 - Docker
 - Docker Compose
