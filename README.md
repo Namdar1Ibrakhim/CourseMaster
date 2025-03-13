@@ -20,7 +20,7 @@
 
 3. Запустите контейнеры Docker:
    ```bash
-   docker-compose up --build
+   docker-compose up -d --build
    ```
 
 4. Приложение будет доступно по адресу:
