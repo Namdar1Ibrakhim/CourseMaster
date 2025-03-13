@@ -1,7 +1,5 @@
 # CourseMaster
 
-CourseMaster — это приложение на основе Spring Boot с использованием PostgreSQL и RabbitMQ.
-
 ## Требования
 - Docker
 - Docker Compose
