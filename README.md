@@ -39,17 +39,17 @@ CourseMaster — это учебное приложение на основе Sp
 - Liquibase
 - Swagger
 
+## Swagger UI
+Документация API доступна по адресу:
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
 ## Управление базой данных
 
 Для подключения к базе данных используйте команду:
 ```bash
 docker exec -it course-master-db psql -U postgres -d course_master
-```
-
-## Swagger UI
-Документация API доступна по адресу:
-```
-http://localhost:8080/swagger-ui/index.html
 ```
 
 ## Логи
