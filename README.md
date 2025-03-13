@@ -31,7 +31,8 @@ CourseMaster — это учебное приложение на основе Sp
    ```
 
 ## Стек технологий
-- Spring Boot
+- Java 17+
+- Spring Boot 3+
 - PostgreSQL
 - RabbitMQ
 - Docker
@@ -43,6 +44,16 @@ CourseMaster — это учебное приложение на основе Sp
 Документация API доступна по адресу:
 ```
 http://localhost:8080/swagger-ui/index.html
+```
+
+## Postman Collections
+Коллекция Постман API доступна по адресу:
+```
+https://restless-star-481705.postman.co/workspace/My-Workspace~fd54e6dd-2f64-4cce-8fb6-4ab377c3c47c/collection/25164846-c05867b9-b0e8-46f7-a369-14e0c0d68ba0?action=share&creator=25164846
+```
+Или можете импортировать коллекцию скачав по ссылке: 
+```
+https://drive.google.com/file/d/1s32PFdju0uaQdOCmx4hTBWGIaqLoaogR/view?usp=sharing
 ```
 
 ## Управление базой данных
