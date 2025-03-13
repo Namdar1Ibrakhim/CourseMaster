@@ -51,7 +51,7 @@ https://restless-star-481705.postman.co/workspace/My-Workspace~fd54e6dd-2f64-4cc
 ```
 Или можете импортировать коллекцию скачав по ссылке: 
 ```
-https://drive.google.com/file/d/1s32PFdju0uaQdOCmx4hTBWGIaqLoaogR/view?usp=sharing
+https://drive.google.com/file/d/1hJzup-wHA6cbSUVriZscP19MF9EhfoPD/view?usp=sharing
 ```
 
 ## Управление базой данных
