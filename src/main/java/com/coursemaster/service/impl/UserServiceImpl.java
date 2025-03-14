@@ -30,32 +30,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserResponseDto> getAll(Pageable pageable) {
-        log.info("Retrieving Users, page number: {}, page size: {}", pageable.getPageNumber(), pageable.getPageSize());
-
         Page<User> userPage = userRepository.findAll(pageable);
-
-        log.info("Retrieving Users, page number: {}, page size: {}", pageable.getPageNumber(), pageable.getPageSize());
-
         return userPage.map(userMapper::toDto);
     }
 
     @Override
     public UserResponseDto getById(long id) {
-        log.info("Retrieving User by ID: {}", id);
-
         User user = getEntityById(id);
-        UserResponseDto responseDto = userMapper.toDto(user);
-
-        log.info("Finished retrieving User by ID: {}", user.getId());
-
-        return responseDto;
+        return userMapper.toDto(user);
     }
 
     @Override
     @Transactional
     public UserResponseDto create(UserRequestDto requestDto) {
-        log.info("Creating new User with username: {}", requestDto.username());
-
         throwExceptionIfUserExists(requestDto.username());
 
         User user = userMapper.toEntity(requestDto);
@@ -64,18 +51,12 @@ public class UserServiceImpl implements UserService {
         );
 
         user = userRepository.save(user);
-        UserResponseDto responseDto = userMapper.toDto(user);
-
-        log.info("Created new User with ID: {}", user.getId());
-
-        return responseDto;
+        return userMapper.toDto(user);
     }
 
     @Override
     @Transactional
     public UserResponseDto update(long id, UserRequestDto requestDto) {
-        log.info("Updating User with ID: {}", id);
-
         User user = getEntityById(id);
 
         String oldUsername = user.getUsername();
@@ -94,22 +75,14 @@ public class UserServiceImpl implements UserService {
         );
 
         user = userRepository.save(user);
-        UserResponseDto responseDto = userMapper.toDto(user);
-
-        log.info("Updated User with ID: {}", user.getId());
-
-        return responseDto;
+        return userMapper.toDto(user);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        log.info("Deleting User with ID: {}", id);
-
         User user = getEntityById(id);
         userRepository.delete(user);
-
-        log.info("Deleted User with ID: {}", user.getId());
     }
 
     @Override

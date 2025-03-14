@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface StudentService {
-
     Page<StudentResponseDto> getAll(Pageable pageable);
     StudentResponseDto getById(long id);
     StudentResponseDto create(StudentRequestDto requestDto);

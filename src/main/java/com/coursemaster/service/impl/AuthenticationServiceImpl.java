@@ -40,8 +40,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public AuthenticationResponseDto register(RegisterRequestDto request) {
-        log.info("Received registration request for username: {}", request.username());
-
         userService.throwExceptionIfUserExists(request.username());
 
         Student student = Student.builder()
@@ -64,8 +62,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = jwtFactory.generateAccessToken(user);
         String refreshToken = jwtFactory.generateRefreshToken(user);
 
-        log.info("User registered successfully with username: {}", user.getUsername());
-
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -74,8 +70,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
-        log.info("Received authentication request for username: {}", request.username());
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),
@@ -91,8 +85,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = jwtFactory.generateAccessToken(user);
         String refreshToken = jwtFactory.generateRefreshToken(user);
 
-        log.info("User authenticated successfully with username: {}", user.getUsername());
-
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -101,8 +93,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponseDto refreshToken(String authHeader) {
-        log.info("Received refresh token request");
-
         String refreshToken = authHeader.substring(7);
 
         User user = jwtParser.extractUsername(refreshToken)
@@ -113,8 +103,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         jwtValidator.ifTokenExpiredThrow(refreshToken, () -> new JwtTokenExpiredException("Refresh token has expired"));
 
         String accessToken = jwtFactory.generateAccessToken(user);
-
-        log.info("User refreshed token successfully with username: {}", user.getUsername());
 
         return AuthenticationResponseDto.builder()
                 .accessToken(accessToken)

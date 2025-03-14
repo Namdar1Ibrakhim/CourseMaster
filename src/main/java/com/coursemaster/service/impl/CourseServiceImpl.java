@@ -41,50 +41,34 @@ public class CourseServiceImpl implements CourseService {
             "Вы успешно зарегистрировались на курс {0}. Описание курса: {1}. Дата начала: {2}.";
 
     @Override
-    public Page<CourseResponseDto> getAll(String name, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        log.info("Retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
-
+    public Page<CourseResponseDto>  getAll(String name, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         Specification<Course> specification = Specification
                 .where(CourseSpecification.hasName(name))
                 .and(CourseSpecification.hasStartDate(startDate))
                 .and(CourseSpecification.hasEndDate(endDate));
 
         Page<Course> coursePage = courseRepository.findAll(specification, pageable);
-        log.info("Finished retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
-
         return coursePage.map(courseMapper::toDto);
     }
 
     @Override
     public CourseResponseDto getById(long id) {
-        log.info("Retrieving Course with ID: {}", id);
-
         Course course = getEntityById(id);
-        CourseResponseDto courseResponseDto = courseMapper.toDto(course);
-
-        log.info("Finished retrieving Course by ID: {}", course.getId());
-
-        return courseResponseDto;
+        return courseMapper.toDto(course);
     }
 
     @Override
     public CourseResponseDto create(CourseRequestDto courseRequestDto) {
-        log.info("Creating new Course with name {}", courseRequestDto.name());
-
         throwExceptionIfCourseExists(courseRequestDto.name());
 
         Course course = courseMapper.toEntity(courseRequestDto);
         course = courseRepository.save(course);
 
-        CourseResponseDto courseResponseDto = courseMapper.toDto(course);
-
-        log.info("Created new Course with name: {}", courseRequestDto.name());
-        return courseResponseDto;
+        return courseMapper.toDto(course);
     }
 
     @Override
     public CourseResponseDto update(long id, CourseUpdateRequestDto dto) {
-        log.info("Updating Course with ID: {}", id);
         Course course = getEntityById(id);
 
         if (dto.name() != null) {
@@ -101,14 +85,11 @@ public class CourseServiceImpl implements CourseService {
         }
 
         course = courseRepository.save(course);
-        log.info("Updated Course with ID: {}", course.getId());
         return courseMapper.toDto(course);
     }
 
     @Override
     public CourseResponseDto registerStudent(long courseId, long studentId) {
-        log.info("Registering student with id {} to course with ID: {}", studentId, courseId);
-
         Student student = studentService.getEntityById(studentId);
         Course course = getEntityById(courseId);
 
@@ -128,15 +109,11 @@ public class CourseServiceImpl implements CourseService {
                 course.getStartDate().toString());
 
         rabbitMailProducer.sendMailMessage(new MailStructureDto(student.getEmail(), MAIL_SUBJECT, formattedMessage));
-
-        log.info("Registered student with email {} to course with ID: {}", student.getEmail(), course.getId());
         return courseMapper.toDto(course);
     }
 
     @Override
     public CourseResponseDto removeStudent(long courseId, long studentId) {
-        log.info("Removing student with id {} from course with ID: {}", studentId, courseId);
-
         Student student = studentService.getEntityById(studentId);
         Course course = getEntityById(courseId);
 
@@ -147,19 +124,13 @@ public class CourseServiceImpl implements CourseService {
         }
 
         course = courseRepository.save(course);
-        log.info("Removed student with email {} from course with ID: {}", student.getEmail(), course.getId());
         return courseMapper.toDto(course);
     }
 
-
     @Override
     public void delete(long id) {
-        log.info("Deleting Course with ID: {}", id);
-
         Course course = getEntityById(id);
         courseRepository.delete(course);
-
-        log.info("Deleted Course with ID: {}", course.getId());
     }
 
     private Course getEntityById(long id) {

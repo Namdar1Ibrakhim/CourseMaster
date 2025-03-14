@@ -29,32 +29,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Page<StudentResponseDto> getAll(Pageable pageable) {
-        log.info("Retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
-
         Page<Student> studentPage = studentRepository.findAll(pageable);
-
-        log.info("Finished retrieving Students, page number: {}, page size : {}", pageable.getPageNumber(), pageable.getPageSize());
-
         return studentPage.map(studentMapper::toDto);
     }
 
     @Override
     public StudentResponseDto getById(long id) {
-        log.info("Retrieving Student with ID: {}", id);
-
         Student student = getEntityById(id);
-        StudentResponseDto responseDto = studentMapper.toDto(student);
-
-        log.info("Finished retrieving Student by ID: {}", student.getId());
-
-        return responseDto;
+        return studentMapper.toDto(student);
     }
 
     @Override
     @Transactional
     public StudentResponseDto create(StudentRequestDto requestDto) {
-        log.info("Creating new Student for User with ID {}", requestDto.userId());
-
         User user = userService.getEntityById(requestDto.userId());
 
         throwExceptionIfUserAlreadyLinkedToStudent(user);
@@ -65,18 +52,12 @@ public class StudentServiceImpl implements StudentService {
         log.info("User with ID {} are set for Student", user.getId());
 
         student = studentRepository.save(student);
-        StudentResponseDto responseDto = studentMapper.toDto(student);
-
-        log.info("Created new Student with ID: {}", student.getId());
-
-        return responseDto;
+        return studentMapper.toDto(student);
     }
 
     @Override
     @Transactional
     public StudentResponseDto update(long id, StudentRequestDto requestDto) {
-        log.info("Updating Student with ID: {}", id);
-
         Student student = getEntityById(id);
 
         User user = student.getUser();
@@ -97,22 +78,14 @@ public class StudentServiceImpl implements StudentService {
         student.setLastName(requestDto.lastName());
 
         student = studentRepository.save(student);
-        StudentResponseDto responseDto = studentMapper.toDto(student);
-
-        log.info("Updated Student with ID: {}", student.getId());
-
-        return responseDto;
+        return studentMapper.toDto(student);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        log.info("Deleting Student with ID: {}", id);
-
         Student student = getEntityById(id);
         studentRepository.delete(student);
-
-        log.info("Deleted Student with ID: {}", student.getId());
     }
 
     public Student getEntityById(long id) {
